@@ -44,7 +44,14 @@ body {
     margin: 1rem;
     padding: 1rem;
     border-radius: 0.2rem;
+    cursor: pointer;
 }
+
+.option-container:hover {
+    transform: scale(1.05);
+    transition: 0.3s ease-in-out;
+}
+
 
 .question {
     margin-bottom: 1rem;
