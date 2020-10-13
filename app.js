@@ -1,5 +1,3 @@
-const DOMquestion = document.querySelectorAll('#question');
-let DOMqArr = Array.from(DOMquestion);
 const input = document.querySelectorAll('input');
 const options = document.querySelectorAll('.option-container');
 
@@ -24,72 +22,87 @@ function inputCheck(e) {
 
 let questions = [
     {
-        question: 'Vilken veckodag',
+        question: 'Vilken veckodag är det idag?',
         answers: {
-            0: 'Falukorv',
-            1: 'gladpack',
-            2: 'motorolja',
-            3: 'helium'
-        },
-        correctAns: 'alt3'
+            a: 'Måndag',
+            b: 'Tisdag',
+            c: 'Onsdag',
+            d: 'Lördag'
+    },
+        correctAns: '1'
     },
     {
-        question: 'Vilken juice',
+        question: 'Vilken juice är godast?',
         answers: {
-            0: 'Falukorv',
-            1: 'gladpack',
-            2: 'motorolja',
-            3: 'helium'
-        },
-        correctAns: 'alt3'
+            a: 'Apelsin',
+            b: 'Äpple',
+            c: 'Ananas',
+            d: 'Gurka'
+    },
+        correctAns: 'c'
     },
     {
-        question: 'Vilken dagbok',
+        question: 'Vilken dagbok tillhör Bert?',
         answers: {
-            0: 'Falukorv',
-            1: 'gladpack',
-            2: 'motorolja',
-            3: 'helium'
-        },
-        correctAns: 'alt3'
+            a: 'Berts',
+            b: 'Åkes',
+            c: 'Lill-Eriks',
+            d: 'Maggans'
+    },
+        correctAns: 'a'
     },
     {
-        question: 'Vilken fot',
+        question: 'Vilken fot sitter till höger?',
         answers: {
-            0: 'Falukorv',
-            1: 'gladpack',
-            2: 'motorolja',
-            3: 'helium'
-        },
-        correctAns: 'alt3'
+            a: 'Höger foten',
+            b: 'Vänster foten',
+            c: 'Båda',
+            d: 'Ingen'
+    },
+        correctAns: 'd'
     },
     {
-        question: 'Vilken veckodag',
+        question: 'Vilken båt är längst?',
         answers: {
-            0: 'Falukorv',
-            1: 'gladpack',
-            2: 'motorolja',
-            3: 'helium'
-        },
-        correctAns: 'alt3'
+            a: 'Yatchen',
+            b: 'Ekan',
+            c: 'Färjan',
+            d: 'Jollen'
+    },
+        correctAns: 'b'
     }
 ];
 
-// for (answers in questions) {
-//     console.log(`${answers} EMELLAN ${question[answers]}`);
-// }
 
 
+//spar ner alla DOM-ställen med #question i nodeList
+const DOMquestion = document.querySelectorAll('#question');
 
-for (var i = 0; i < 5; i++) {
+//gör om nodeList till Array pga jag vet inte om man kan looopa över 
+// nodeLists på samma sätt..
+let DOMqArr = Array.from(DOMquestion);
+
+// loopar igenom alla frågor
+for (let i = 0; i < questions.length; i++) {
+    //ändrar textinnehåll i varje DOM-element som är en fråga
     DOMqArr[i].textContent = questions[i].question;
-    const options = [];
-    options.push(DOMqArr[i].querySelectorAll('.option'));
-    console.log(options);
 
-    options[i].forEach(cur => cur.textContent = questions[i].answers[i]);
+    // spar ner alla .option som hör till frågan i en nodeList
+    let options = DOMqArr[i].parentElement.querySelectorAll('.option');
 
+    // gör om nodeList till Array 
+    let optionsArr = Array.from(options);
 
+    // Sparar alla svarsalternativ i en array
+    let answersArr = Object.values(questions[i].answers);
+
+    // Loop i loopen för att vara kvar på samma fråga och
+    // loopa igenom frågans svarsalternativ
+    for (let j = 0; j < optionsArr.length; j++) {
+        // varje DOM element får nu nytt textinnehåll från
+        //svarsalternativs arrayen!
+        optionsArr[j].textContent = answersArr[j];
+    }  
 }
 
 
