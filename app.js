@@ -103,13 +103,19 @@ function createQuestionsHTML() {
                     <label for="opt4" class="option">${questions[i].answers.d}</label>
                 </div>`;
 
-                let HTMLend = `<button class="btn" onclick="window.location.href='#question${i+2}'">Nästa fråga</button></div></div></section>`;
+        let HTMLNext = `<button class="btn" onclick="window.location.href='#question${i+2}'">Nästa fråga</button>`;   
+        
+        let HTMLPrev = `<button class="btn" onclick="window.location.href='#question${i}'">
+        Tillbaka</button>`;
+
+        let HTMLendSec = `</div></div></section>`;
 
         if(i === 0) {
-            section.innerHTML = HTML +  HTMLend;
+            section.innerHTML = HTML + HTMLNext + HTMLendSec;
+        } else if (i === questions.length - 1) {
+            section.innerHTML = HTML + HTMLPrev + HTMLendSec;
         } else {
-            section.innerHTML = HTML + `<button class="btn" onclick="window.location.href='#question${i}'">
-            Tillbaka</button>` + HTMLend;
+            section.innerHTML = HTML + HTMLPrev + HTMLNext + HTMLendSec;
         }
 
         sections.push(section);
