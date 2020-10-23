@@ -74,67 +74,57 @@ let questions = [
 ];
 
 
+function createQuestionsHTML() {
+    let sections = [];
 
-//spar ner alla DOM-ställen med #question i nodeList
-const DOMquestion = document.querySelectorAll('#question');
+    for (let i = 0; i < questions.length; i++) {
 
-//gör om nodeList till Array pga jag vet inte om man kan looopa över 
-// nodeLists på samma sätt..
-let DOMqArr = Array.from(DOMquestion);
+        let section = document.createElement('section');
 
-// loopar igenom alla frågor
-for (let i = 0; i < questions.length; i++) {
-    //ändrar textinnehåll i varje DOM-element som är en fråga
-    DOMqArr[i].textContent = questions[i].question;
+        let HTML =
+            `<section id="question${i+1}">
+            <div class="question-card">
+                <h3 id="question" class="question">${questions[i].question}</h3>
+                <h4 class="question-number">Fråga ${i+1}</h4>
+                <div class="option-container">
+                    <input type="radio" name="opt1" id="opt1">
+                    <label for="opt1" class="option">${questions[i].answers.a}</label>
+                </div>
+                <div class="option-container">
+                    <input type="radio" name="opt1" id="opt2">
+                    <label for="opt2" class="option">${questions[i].answers.b}</label>
+                </div>
+                <div class="option-container">
+                    <input type="radio" name="opt1" id="opt3">
+                    <label for="opt3" class="option">${questions[i].answers.c}</label>
+                </div>
+                <div class="option-container">
+                    <input type="radio" name="opt1" id="opt4">
+                    <label for="opt4" class="option">${questions[i].answers.d}</label>
+                </div>`;
 
-    // spar ner alla .option som hör till frågan i en nodeList
-    let options = DOMqArr[i].parentElement.querySelectorAll('.option');
+                let HTMLend = `<button class="btn" onclick="window.location.href='#question${i+2}'">Nästa fråga</button></div></div></section>`;
 
-    // gör om nodeList till Array 
-    let optionsArr = Array.from(options);
+        if(i === 0) {
+            section.innerHTML = HTML +  HTMLend;
+        } else {
+            section.innerHTML = HTML + `<button class="btn" onclick="window.location.href='#question${i}'">
+            Tillbaka</button>` + HTMLend;
+        }
 
-    // Sparar alla svarsalternativ i en array
-    let answersArr = Object.values(questions[i].answers);
+        sections.push(section);
 
-    // Loop i loopen för att vara kvar på samma fråga och
-    // loopa igenom frågans svarsalternativ
-    for (let j = 0; j < optionsArr.length; j++) {
-        // varje DOM element får nu nytt textinnehåll från
-        //svarsalternativs arrayen!
-        optionsArr[j].textContent = answersArr[j];
-    }  
+    }
+    
+    return sections;
 }
 
+function displayQuestion() {
 
-/* function createQuestion() {
+    let sections = createQuestionsHTML();
+    
+    sections.forEach(cur => document.querySelector('.questions').insertAdjacentHTML('beforeend', cur.innerHTML));
 
-    let section = document.createElement('section');
-
-    section.innerHTML =
-        `<section id="question1">
-        <div class="question-card">
-            <h3 id="question" class="question">Vad är en veckodag?</h3>
-            <h4 class="question-number">Fråga 1</h4>
-            <div class="option-container">
-                <input type="radio" name="opt1" id="opt1">
-                <label for="opt1" class="option">${questions.answers[0]}</label>
-            </div>
-            <div class="option-container">
-                <input type="radio" name="opt1" id="opt2">
-                <label for="opt2" class="option">${questions.answers[1]}</label>
-            </div>
-            <div class="option-container">
-                <input type="radio" name="opt1" id="opt3">
-                <label for="opt3" class="option">${questions.answers[2]}</label>
-            </div>
-            <div class="option-container">
-                <input type="radio" name="opt1" id="opt4">
-                <label for="opt4" class="option">${questions.answers[3]}</label>
-            </div>
-            <button class="btn" onclick="window.location.href='#question2'">Nästa fråga</button>
-        </div>
-    </section>`
-    return section;
 }
 
-createQuestion(); */
+displayQuestion();
