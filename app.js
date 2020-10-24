@@ -80,10 +80,10 @@ function createQuestionsHTML() {
     for (let i = 0; i < questions.length; i++) {
 
         let section = document.createElement('section');
+        section.id =`question${i+1}`;
 
         let HTML =
-            `<section id="question${i+1}">
-            <div class="question-card">
+            `<div class="question-card">
                 <h3 id="question" class="question">${questions[i].question}</h3>
                 <h4 class="question-number">Fråga ${i+1}</h4>
                 <div class="option-container">
@@ -108,7 +108,7 @@ function createQuestionsHTML() {
         let HTMLPrev = `<button class="btn" onclick="window.location.href='#question${i}'">
         Tillbaka</button>`;
 
-        let HTMLendSec = `</div></div></section>`;
+        let HTMLendSec = `</div></div>`;
 
         if(i === 0) {
             section.innerHTML = HTML + HTMLNext + HTMLendSec;
@@ -128,8 +128,9 @@ function createQuestionsHTML() {
 function displayQuestion() {
 
     let sections = createQuestionsHTML();
+    console.log(sections[0]);
     
-    sections.forEach(cur => document.querySelector('.questions').insertAdjacentHTML('beforeend', cur.innerHTML));
+    sections.forEach(section => document.querySelector('.questions').appendChild(section));
 
 }
 
