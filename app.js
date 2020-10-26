@@ -29,7 +29,7 @@ let questions = [
             c: 'Onsdag',
             d: 'Lördag'
     },
-        correctAns: '1'
+        correctAns: 'a'
     },
     {
         question: 'Vilken juice är godast?',
@@ -74,6 +74,11 @@ let questions = [
 ];
 
 
+// @TODO: lägga till värdet på ID för ny fråga som genereras.
+// just nu kommer man till fr 1 om man klickar på label på fråga 2,3,4 osv
+
+// @TODO (onödigt): det skulle vara kul att generera slumpmässigt tal för hexkod å slumpa färg för fråga 
+
 function createQuestionsHTML() {
     let sections = [];
 
@@ -103,20 +108,25 @@ function createQuestionsHTML() {
                     <label for="opt4" class="option">${questions[i].answers.d}</label>
                 </div>`;
 
-        let HTMLNext = `<button class="btn" onclick="window.location.href='#question${i+2}'">Nästa fråga</button>`;   
+        // går det att baka ihop html prev och next?
+        let HTMLBtns = `<div class="buttons"><button class="btn" onclick="window.location.href='#question${i+2}'">Nästa fråga</button> <button class="btn" onclick="window.location.href='#question${i}'">
+        Tillbaka</button> </div>`;   
         
-        let HTMLPrev = `<button class="btn" onclick="window.location.href='#question${i}'">
-        Tillbaka</button>`;
+        // let HTMLPrev = `<button class="btn" onclick="window.location.href='#question${i}'">
+        // Tillbaka</button>`;
 
         let HTMLendSec = `</div></div></section>`;
 
         if(i === 0) {
-            section.innerHTML = HTML + HTMLNext + HTMLendSec;
+            section.innerHTML = HTML + HTMLBtns+ HTMLendSec;
         } else if (i === questions.length - 1) {
-            section.innerHTML = HTML + HTMLPrev + HTMLendSec;
+            section.innerHTML = HTML + HTMLBtns + HTMLendSec;
         } else {
-            section.innerHTML = HTML + HTMLPrev + HTMLNext + HTMLendSec;
+            section.innerHTML = HTML + HTMLBtns + HTMLendSec;
         }
+
+        section.style.backgroundColor = setBg();
+        console.log( section.style.backgroundColor);
 
         sections.push(section);
 
@@ -134,3 +144,26 @@ function displayQuestion() {
 }
 
 displayQuestion();
+
+// @Todo: Display score function
+
+// Antal rätta svar börjar på 0
+// Lägg till 20% eller 1 poäng ifall rätt svar
+// Ifall fel svar, inget händer!
+// Output av score function presenteras
+
+
+
+function setBg() {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    document.body.style.backgroundColor = `#${randomColor}`;
+
+    return `#${randomColor}`;
+    // color.innerHTML = `#${randomColor}`;
+  }
+  
+  // onload? 
+  window.addEventListener("load", setBg);
+  
+  setBg();
+  
