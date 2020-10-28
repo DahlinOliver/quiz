@@ -27,7 +27,8 @@ label.option {
   align-items: center;
 }
 
-.question-card {
+.question-card,
+.summary-container {
   max-width: 1200px;
   width: 80%;
   height: 75vh;
@@ -87,6 +88,17 @@ input:hover {
 
 .btn + .btn {
   margin-left: 1rem;
+}
+
+.summary {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.summary h2 {
+  margin-bottom: 2rem;
 }
 
 /* Media queries */

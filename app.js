@@ -82,26 +82,26 @@ function createQuestionsHTML() {
                 <h3 id="question" class="question">${questions[i].question}</h3>
                 <h4 class="question-number">Fråga ${i + 1}</h4>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="opt1">
-                    <label for="opt1" class="option">${
+                    <input type="radio" name="opt${i + 1}" id="a">
+                    <label for="a" class="option">${
                       questions[i].answers.a
                     }</label>
                 </div>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="opt2">
-                    <label for="opt2" class="option">${
+                    <input type="radio" name="opt${i + 1}" id="b">
+                    <label for="b" class="option">${
                       questions[i].answers.b
                     }</label>
                 </div>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="opt3">
-                    <label for="opt3" class="option">${
+                    <input type="radio" name="opt${i + 1}" id="c">
+                    <label for="c" class="option">${
                       questions[i].answers.c
                     }</label>
                 </div>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="opt4">
-                    <label for="opt4" class="option">${
+                    <input type="radio" name="opt${i + 1}" id="d">
+                    <label for="d" class="option">${
                       questions[i].answers.d
                     }</label>
                 </div>`;
@@ -150,50 +150,78 @@ displayQuestion();
 // Ifall fel svar, inget händer!
 // Output av score function presenteras
 
+// randomly sets background color for each section
 function setBg() {
   const randomColor = Math.floor(Math.random() * 16777215).toString(16);
   document.body.style.backgroundColor = `#${randomColor}`;
 
   return `#${randomColor}`;
 }
-
-// onload?
-window.addEventListener("load", setBg);
-
 setBg();
-
-//   submitBtn.addEventListener('click', (e) => {
-//       console.log(e.target);
-//   });
 
 const lastQuestion = document.getElementById(`question${questions.length}`);
 
 lastQuestion.addEventListener("click", (e) => {
   const { target } = e;
 
-  // ta bort alla event förutom submit
+  // remove all events but submit event
   if (!target.classList.contains("submit-btn")) {
     return;
   }
 
   correct();
   // rätta svar funktion
+  // output till DOM
 });
 
 function correct() {
   let corrAns = questions.map((el) => el.correctAns);
-  console.log(corrAns);
 
   const quest = document.querySelector(".questions");
 
-  const checked = quest.querySelectorAll("input[type=radio]:checked");
+  const checked = Array.from(
+    quest.querySelectorAll("input[type=radio]:checked")
+  );
+
+  let userAns = checked.map(e => e.id);
+  console.log(userAns);
+
+  for(let i = 0; i < questions.length; i++) {
+    if(corrAns[i] === userAns[i]) {
+      score.push(1);
+    } else {
+      score.push(0);
+    }
+  }
+
+  // @TODO: jämföra checked med corrAns
+
+  // Add value for each correct answer
+  // If statement in forEach loop?
+
+
 
   const checkAnswers = checked.forEach((element) => {
-    console.log(element);
+    //console.log(element);
   });
 
-  conbsole.log(checkAnswers);
+  console.log(checkAnswers);
 
-  console.log(checked);
+
   // nodelist med index går att jmf med svar? correct answers array
 }
+
+function displayResult() {
+  const section = document.createElement('section');
+  section.classList.add = 'summary';
+  
+  section.innerHTML = `<div class="summary-container">
+  <h2>Ditt quizresultat är här!</h2>
+  <p>Du fick <span class="corr-answer">2</span> rätt av 5 möjliga!</p>
+  </div>`;
+
+  
+  
+}
+
+correct();
