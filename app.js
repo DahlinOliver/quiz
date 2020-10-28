@@ -1,23 +1,10 @@
-const input = document.querySelectorAll("input");
-const options = document.querySelectorAll(".option-container");
+/* const input = document.querySelectorAll("input"); */
+
 const submitBtn = document.querySelector(".submit-btn");
 
 let score = [];
 
-/* options.forEach(function (cur) {
-    cur.addEventListener('click', inputCheck);
-});
- */
-
-// options.addEventListener('click', inputCheck);
-
-/* function inputCheck(e) {
-    e.preventDefault();
-
-    input.checked = true;
-    console.log(input);
-} */
-
+// Array with questions and answers
 let questions = [
   {
     question: "Vilken veckodag är det idag?",
@@ -71,6 +58,7 @@ let questions = [
   },
 ];
 
+// Dynamically generate HTML
 function createQuestionsHTML() {
   let sections = [];
 
@@ -82,38 +70,33 @@ function createQuestionsHTML() {
                 <h3 id="question" class="question">${questions[i].question}</h3>
                 <h4 class="question-number">Fråga ${i + 1}</h4>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="a">
-                    <label for="a" class="option">${
-                      questions[i].answers.a
-                    }</label>
+                    
+                    <label for="a${i}" class="option"><input type="radio" name="opt${i + 1}" id="a${i}">${questions[i].answers.a
+      }</label>
                 </div>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="b">
-                    <label for="b" class="option">${
-                      questions[i].answers.b
-                    }</label>
+                    
+                    <label for="b${i}" class="option"> <input type="radio" name="opt${i + 1}" id="b${i}">${questions[i].answers.b
+      }</label>
                 </div>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="c">
-                    <label for="c" class="option">${
-                      questions[i].answers.c
-                    }</label>
+                    
+                    <label for="c${i}" class="option"><input type="radio" name="opt${i + 1}" id="c${i}">${questions[i].answers.c
+      }</label>
                 </div>
                 <div class="option-container">
-                    <input type="radio" name="opt${i + 1}" id="d">
-                    <label for="d" class="option">${
-                      questions[i].answers.d
-                    }</label>
+                    
+                    <label for="d${i}" class="option"><input type="radio" name="opt${i + 1}" id="d${i}">${questions[i].answers.d
+      }</label>
                 </div>`;
 
-    let HTMLNext = `<button class="btn" onclick="window.location.href='#question${
-      i + 2
-    }'">Nästa fråga</button>`;
+    let HTMLNext = `<button class="btn" onclick="window.location.href='#question${i + 2
+      }'">Nästa fråga</button>`;
 
     let HTMLPrev = `<button class="btn" onclick="window.location.href='#question${i}'">
         Tillbaka</button>`;
 
-    let HTMLsubmit = `<button class="btn submit-btn">Rätta</button>`;
+    let HTMLsubmit = `<button class="btn submit-btn" onclick="window.location.href='#summary'">Rätta</button>`;
 
     let HTMLendSec = `</div></div>`;
 
@@ -141,22 +124,19 @@ function displayQuestion() {
   );
 }
 
+// display all questions
 displayQuestion();
-
-// @Todo: Display score function
-
-// Antal rätta svar börjar på 0
-// Lägg till 20% eller 1 poäng ifall rätt svar
-// Ifall fel svar, inget händer!
-// Output av score function presenteras
 
 // randomly sets background color for each section
 function setBg() {
+  // https://css-tricks.com/snippets/javascript/random-hex-color/
   const randomColor = Math.floor(Math.random() * 16777215).toString(16);
   document.body.style.backgroundColor = `#${randomColor}`;
 
   return `#${randomColor}`;
 }
+
+// set background for sections
 setBg();
 
 const lastQuestion = document.getElementById(`question${questions.length}`);
@@ -169,59 +149,72 @@ lastQuestion.addEventListener("click", (e) => {
     return;
   }
 
+  // run correct answer function when submitted
   correct();
-  // rätta svar funktion
-  // output till DOM
 });
 
 function correct() {
   let corrAns = questions.map((el) => el.correctAns);
 
+  // grab questions from DOM
   const quest = document.querySelector(".questions");
 
+  // checked values nodelist turned into array
   const checked = Array.from(
     quest.querySelectorAll("input[type=radio]:checked")
   );
 
-  let userAns = checked.map(e => e.id);
-  console.log(userAns);
+  let userAns = checked.map(e => e.id.substr(0, 1));
 
-  for(let i = 0; i < questions.length; i++) {
-    if(corrAns[i] === userAns[i]) {
+  // loop through questions and add points for correct answer
+  for (let i = 0; i < questions.length; i++) {
+
+    // add 1 for correct answer
+    if (corrAns[i] === userAns[i]) {
       score.push(1);
     } else {
       score.push(0);
     }
   }
 
-  // @TODO: jämföra checked med corrAns
-
-  // Add value for each correct answer
-  // If statement in forEach loop?
-
+  // reduce method to add corr answer points
+  const reducer = (acc, cur) => acc + cur;
+  const total = score.reduce(reducer);
 
 
-  const checkAnswers = checked.forEach((element) => {
-    //console.log(element);
-  });
-
-  console.log(checkAnswers);
-
-
-  // nodelist med index går att jmf med svar? correct answers array
+  displayResult(total);
 }
 
-function displayResult() {
+function displayResult(total) {
   const section = document.createElement('section');
-  section.classList.add = 'summary';
-  
+  section.id = 'summary';
+
   section.innerHTML = `<div class="summary-container">
   <h2>Ditt quizresultat är här!</h2>
-  <p>Du fick <span class="corr-answer">2</span> rätt av 5 möjliga!</p>
+  <p>Du fick <span class="corr-answer">${total}</span> rätt av ${questions.length} möjliga!</p>
   </div>`;
 
-  
-  
+  document.querySelector(".questions").appendChild(section);
 }
 
-correct();
+
+// @TODO: make entire DIV clickable instead of only label
+// @TODO: allow answers to only be submitted once
+
+
+/* // Button DIV click checkbox
+options.addEventListener('click', function (evt) {
+  if (evt.target.tagName === 'DIV') {
+    input.checked = true;
+  }
+});
+
+console.log(evt.target.tagName); */
+const options = document.querySelectorAll(".option-container");
+
+options.forEach(cur => cur.addEventListener('click', evt => {
+
+  const radio = evt.target.querySelector('input');
+  radio.checked = true;
+
+}));

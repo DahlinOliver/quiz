@@ -11,9 +11,9 @@ body {
 
 /* Frågor gemensamt */
 
-label.option {
+/* label.option {
   pointer-events: none;
-}
+} */
 
 #question1,
 #question2,
@@ -56,10 +56,14 @@ label.option {
   cursor: pointer;
 }
 
-.option-container:hover {
+.option-container:hover { 
   transform: scale(1.05);
   transition: 0.3s ease-in-out;
-  cursor: default;
+  cursor: pointer;
+}
+
+label.option:hover {
+  cursor: pointer;
 }
 
 .question {
@@ -70,6 +74,7 @@ label.option {
 .option {
   margin-left: 1.3rem;
 }
+
 
 input:hover {
   cursor: pointer;
@@ -90,14 +95,14 @@ input:hover {
   margin-left: 1rem;
 }
 
-.summary {
+#summary {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.summary h2 {
+#summary h2 {
   margin-bottom: 2rem;
 }
 
